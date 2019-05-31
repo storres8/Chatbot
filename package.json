@@ -1,0 +1,26 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storres8/Chatbot.git"
+  },
+  "author": "steven torres",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/storres8/Chatbot/issues"
+  },
+  "homepage": "https://github.com/storres8/Chatbot#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "nodemon": "^1.19.1"
+  }
+}
