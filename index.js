@@ -36,6 +36,14 @@ io.on("connection", socket => {
   socket.on("sendMessage", newMessage => {
     io.emit("message", newMessage);
   });
+
+  /* 
+  disconnect is a built in socket event that detects when a user leaves the server. We don't have to create
+  a listener in the client for this to run, the cb is triggered when the user disconnects.
+  */
+  socket.on("disconnect", () => {
+    io.emit("message", "A user has disconnected");
+  });
 });
 
 server.listen(port, () => {
