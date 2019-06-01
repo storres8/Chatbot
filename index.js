@@ -17,6 +17,9 @@ app.get("/", (req, resp) => {
 });
 
 let greeting = "Welcome!";
+let newUserJoin = "A new user has joined the chat";
+
+// io.on is only ever run when a new client connects to the server.
 io.on("connection", socket => {
   console.log("New Websocket Connection");
 
@@ -25,6 +28,9 @@ io.on("connection", socket => {
   greeting the client when they enter the chatroom.
   */
   socket.emit("message", greeting);
+
+  // socket.broadcast.emit sends a message to all the connected users minus the one that sent the message.
+  socket.broadcast.emit("message", newUserJoin);
 
   // listens for a newMessage submission from client & sends to all clients connected to server.
   socket.on("sendMessage", newMessage => {
