@@ -16,6 +16,10 @@ app.get("/", (req, resp) => {
   resp.send("working");
 });
 
+io.on("connection", () => {
+  console.log("New Websocket Connection");
+});
+
 server.listen(port, () => {
   console.log(`listening on port ${port}...`);
 });
