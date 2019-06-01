@@ -5,8 +5,8 @@ const socket = io("http://localhost:5500");
 class Home extends Component {
   constructor(props) {
     super(props);
+    //using react refs to set focus attribute onto dom.
     this.inputRef = React.createRef();
-    this.locationRef = React.createRef();
 
     this.state = {
       message: "",
