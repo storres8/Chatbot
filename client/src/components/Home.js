@@ -3,11 +3,30 @@ import io from "socket.io-client";
 const socket = io("http://localhost:5500");
 
 class Home extends Component {
+  state = {
+    message: ""
+  };
+
   componentDidMount() {
-    socket.on("greet", greeting => {
+    socket.on("message", greeting => {
       console.log(`${greeting}`);
     });
   }
+
+  handleMessage = e => {
+    this.setState({
+      message: e.target.value
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    let newMessage = this.state.message;
+    socket.emit("sendMessage", newMessage);
+    this.setState({
+      message: ""
+    });
+  };
 
   render() {
     // socket.on allows us to listen for an event.
@@ -15,6 +34,19 @@ class Home extends Component {
     return (
       <div>
         <h1>Chat App!</h1>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Message:
+            <input
+              type="text"
+              value={this.state.message}
+              onChange={e => this.handleMessage(e)}
+            />
+          </label>
+          <button type="submit" value="Submit">
+            Send
+          </button>
+        </form>
       </div>
     );
   }

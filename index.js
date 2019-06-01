@@ -24,7 +24,12 @@ io.on("connection", socket => {
   socket.emit will allows us to send an event from the server to client once that client connects, 
   greeting the client when they enter the chatroom.
   */
-  socket.emit("greet", greeting);
+  socket.emit("message", greeting);
+
+  // listens for a newMessage submission from client & sends to all clients connected to server.
+  socket.on("sendMessage", newMessage => {
+    io.emit("message", newMessage);
+  });
 });
 
 server.listen(port, () => {
