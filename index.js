@@ -16,8 +16,15 @@ app.get("/", (req, resp) => {
   resp.send("working");
 });
 
-io.on("connection", () => {
+let greeting = "Welcome!";
+io.on("connection", socket => {
   console.log("New Websocket Connection");
+
+  /*
+  socket.emit will allows us to send an event from the server to client once that client connects, 
+  greeting the client when they enter the chatroom.
+  */
+  socket.emit("greet", greeting);
 });
 
 server.listen(port, () => {
