@@ -33,8 +33,9 @@ io.on("connection", socket => {
   socket.broadcast.emit("message", newUserJoin);
 
   // listens for a newMessage submission from client & sends to all clients connected to server.
-  socket.on("sendMessage", newMessage => {
+  socket.on("sendMessage", (newMessage, callback) => {
     io.emit("message", newMessage);
+    callback();
   });
 
   /* 
@@ -45,11 +46,12 @@ io.on("connection", socket => {
     io.emit("message", "A user has disconnected");
   });
 
-  socket.on("sendLocation", location => {
+  socket.on("sendLocation", (location, callbackLocation) => {
     io.emit(
       "message",
       `https://google.com/maps?q=${location.latitude},${location.longitude}`
     );
+    callbackLocation();
   });
 });
 

@@ -3,9 +3,16 @@ import io from "socket.io-client";
 const socket = io("http://localhost:5500");
 
 class Home extends Component {
-  state = {
-    message: ""
-  };
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+    this.locationRef = React.createRef();
+
+    this.state = {
+      message: "",
+      loadingLoc: false
+    };
+  }
 
   componentDidMount() {
     socket.on("message", greeting => {
@@ -22,22 +29,35 @@ class Home extends Component {
   handleSubmit = e => {
     e.preventDefault();
     let newMessage = this.state.message;
-    socket.emit("sendMessage", newMessage);
+    socket.emit("sendMessage", newMessage, () => {
+      console.log("Message delivered.");
+    });
     this.setState({
       message: ""
     });
+
+    // when submit button is clicked input field is focused for quick messaging.
+    this.inputRef.current.focus();
   };
 
   handleLocation = () => {
+    this.setState({
+      loadingLoc: true
+    });
     if (!navigator.geolocation) {
       return alert("Geolocation not supported in your current browser");
     }
     navigator.geolocation.getCurrentPosition(position => {
-      let location = {
+      let Ulocation = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       };
-      socket.emit("sendLocation", location);
+      socket.emit("sendLocation", Ulocation, () => {
+        console.log("Location Shared!");
+        this.setState({
+          loadingLoc: false
+        });
+      });
     });
     return;
   };
@@ -52,16 +72,19 @@ class Home extends Component {
           <label>
             Message:
             <input
+              ref={this.inputRef}
               type="text"
               value={this.state.message}
               onChange={e => this.handleMessage(e)}
             />
           </label>
-          <button type="submit" value="Submit">
+          <button disabled={!this.state.message} type="submit" value="Submit">
             Send
           </button>
         </form>
-        <button onClick={this.handleLocation}>Share Location</button>
+        <button disabled={this.state.loadingLoc} onClick={this.handleLocation}>
+          Share Location
+        </button>
       </div>
     );
   }
