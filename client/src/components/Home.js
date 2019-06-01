@@ -28,6 +28,20 @@ class Home extends Component {
     });
   };
 
+  handleLocation = () => {
+    if (!navigator.geolocation) {
+      return alert("Geolocation not supported in your current browser");
+    }
+    navigator.geolocation.getCurrentPosition(position => {
+      let location = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+      socket.emit("sendLocation", location);
+    });
+    return;
+  };
+
   render() {
     // socket.on allows us to listen for an event.
     // socket.on takes two arguments, the name of the event as the first and then a callback function.
@@ -47,6 +61,7 @@ class Home extends Component {
             Send
           </button>
         </form>
+        <button onClick={this.handleLocation}>Share Location</button>
       </div>
     );
   }
