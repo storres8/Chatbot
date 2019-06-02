@@ -28,6 +28,10 @@ class Home extends Component {
         mounted: true
       });
     });
+
+    socket.on("locationMessage", location => {
+      this.state.messages.push(location);
+    });
   }
 
   handleMessage = e => {
