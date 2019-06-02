@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
+const { generateMessage } = require("./utils/messages");
 
 const app = express();
 //creates a new sever
@@ -16,7 +17,6 @@ app.get("/", (req, resp) => {
   resp.send("working");
 });
 
-let greeting = "Welcome!";
 let newUserJoin = "A new user has joined the chat";
 
 // io.on is only ever run when a new client connects to the server.
@@ -27,7 +27,7 @@ io.on("connection", socket => {
   socket.emit will allows us to send an event from the server to client once that client connects, 
   greeting the client when they enter the chatroom.
   */
-  socket.emit("message", greeting);
+  socket.emit("message", generateMessage("Welcome!"));
 
   // socket.broadcast.emit sends a message to all the connected users minus the one that sent the message.
   socket.broadcast.emit("message", newUserJoin);

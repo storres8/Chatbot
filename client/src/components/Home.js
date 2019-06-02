@@ -20,8 +20,8 @@ class Home extends Component {
 
   componentDidMount() {
     socket.on("message", message => {
-      console.log(`${message}`);
-      this.state.messages.push(message);
+      console.log(message);
+      this.state.messages.push(message.text);
       // calling setState inside of the componentDidMount causes a rerender of ther component.
       // This was done specifically load all messages inside of this.state.messages.
       this.setState({
