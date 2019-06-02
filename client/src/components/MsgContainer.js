@@ -14,11 +14,19 @@ class MsgContainer extends Component {
 
     return (
       <div>
-        {this.props.messages.map((word, index) =>
-          isUrl(word) ? (
-            <UrlMsg key={index} messages={word} />
+        {this.props.messages.map((message, index) =>
+          isUrl(message.text) ? (
+            <UrlMsg
+              key={index}
+              messages={message.text}
+              createdAt={message.createdAt}
+            />
           ) : (
-            <Message key={index} messages={word} />
+            <Message
+              key={index}
+              messages={message.text}
+              createdAt={message.createdAt}
+            />
           )
         )}
       </div>

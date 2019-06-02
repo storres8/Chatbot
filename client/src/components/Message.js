@@ -4,7 +4,10 @@ class Message extends Component {
   render() {
     return (
       <div>
-        <p>{this.props.messages}</p>
+        <p>
+          {" "}
+          {this.props.createdAt} - {this.props.messages}
+        </p>
       </div>
     );
   }

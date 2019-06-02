@@ -6,6 +6,7 @@ class UrlMsg extends Component {
     return (
       <div>
         <p>
+          {this.props.createdAt} - {""}
           <a href={url} rel="noopener noreferrer" target="_blank">
             {url}
           </a>
