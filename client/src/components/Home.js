@@ -22,6 +22,8 @@ class Home extends Component {
     socket.on("message", message => {
       console.log(`${message}`);
       this.state.messages.push(message);
+      // calling setState inside of the componentDidMount causes a rerender of ther component.
+      // This was done specifically load all messages inside of this.state.messages.
       this.setState({
         mounted: true
       });
@@ -75,9 +77,7 @@ class Home extends Component {
     // socket.on takes two arguments, the name of the event as the first and then a callback function.
     return (
       <div>
-        {this.state.messages.length > 0 ? (
-          <MsgContainer messages={this.state.messages} />
-        ) : null}
+        {<MsgContainer messages={this.state.messages} />}
         <form onSubmit={this.handleSubmit}>
           <label>
             Message:
