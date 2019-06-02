@@ -7,7 +7,7 @@ class UrlMsg extends Component {
       <div>
         <p>
           <a href={url} rel="noopener noreferrer" target="_blank">
-            My Current Location
+            {url}
           </a>
         </p>
       </div>
