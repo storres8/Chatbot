@@ -17,8 +17,6 @@ app.get("/", (req, resp) => {
   resp.send("working");
 });
 
-let newUserJoin = "A new user has joined the chat";
-
 // io.on is only ever run when a new client connects to the server.
 io.on("connection", socket => {
   console.log("New Websocket Connection");
@@ -30,11 +28,14 @@ io.on("connection", socket => {
   socket.emit("message", generateMessage("Welcome!"));
 
   // socket.broadcast.emit sends a message to all the connected users minus the one that sent the message.
-  socket.broadcast.emit("message", newUserJoin);
+  socket.broadcast.emit(
+    "message",
+    generateMessage("A new user has joined the chat")
+  );
 
   // listens for a newMessage submission from client & sends to all clients connected to server.
   socket.on("sendMessage", (newMessage, callback) => {
-    io.emit("message", newMessage);
+    io.emit("message", generateMessage(newMessage));
     callback();
   });
 
@@ -43,7 +44,7 @@ io.on("connection", socket => {
   a listener in the client for this to run, the cb is triggered when the user disconnects.
   */
   socket.on("disconnect", () => {
-    io.emit("message", "A user has disconnected");
+    io.emit("message", generateMessage("A user has disconnected"));
   });
 
   socket.on("sendLocation", (location, callbackLocation) => {
