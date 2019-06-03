@@ -10,7 +10,7 @@ function App() {
       <div>
         <Header />
         <Switch>
-          <Route exact path="/join" component={Join} />
+          <Route exact path="/" component={Join} />
           <Route exact path="/home" component={Home} />
         </Switch>
       </div>

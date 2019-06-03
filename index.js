@@ -18,20 +18,46 @@ app.get("/", (req, resp) => {
 });
 
 // io.on is only ever run when a new client connects to the server.
+/* 
+  __REGULAR SOCKET CALLS__
+  socket.emit --> sends an event to a specific client.
+  io.emit --> sends an event to every connected client. 
+  socket.broadcast.emit --> sends an event to every connected client except for the client that 
+  initiated the event.
+  __ROOM CALLS__
+  io.to.emit --> sends an event to everyone in a specific room 
+  socket.broadcast.to.emit --> sends an event to every connected client in a specific ROOM** except
+   for the client that initiated the event.
+*/
 io.on("connection", socket => {
   console.log("New Websocket Connection");
 
   /*
   socket.emit will allows us to send an event from the server to client once that client connects, 
   greeting the client when they enter the chatroom.
+  ***removed the following broadcasr emit to be inside a specfic room. 
   */
-  socket.emit("message", generateMessage("Welcome!"));
+  // socket.emit("message", generateMessage("Welcome!"));
 
-  // socket.broadcast.emit sends a message to all the connected users minus the one that sent the message.
-  socket.broadcast.emit(
-    "message",
-    generateMessage("A new user has joined the chat")
-  );
+  /* socket.broadcast.emit sends a message to all the connected users minus the one that sent the message.
+   ***removed the following broadcasr emit to be inside a specfic room.
+   */
+  // socket.broadcast.emit(
+  //   "message",
+  //   generateMessage("A new user has joined the chat")
+  // );
+
+  // server is listening for the "join" call from client.
+  // Destructing username and room from the incoming object sent from the client.
+  socket.on("join", ({ username, room }) => {
+    // socket.join() us a method that can only be used on the sever and it creates different chat rooms.
+    socket.join(room);
+
+    socket.emit("message", generateMessage("Welcome!"));
+    socket.broadcast
+      .to(room)
+      .emit("message", generateMessage(`${username} has joined the chat`));
+  });
 
   // listens for a newMessage submission from client & sends to all clients connected to server.
   socket.on("sendMessage", (newMessage, callback) => {

@@ -38,7 +38,13 @@ class Home extends Component {
 
     // parsing the url to grab the username and room and send it to the backend.
     const { username, room } = QS.parse(window.location.search, {
+      // ignored the ? and what ever is before in the URL.
       ignoreQueryPrefix: true
+    });
+    // emmiting socket event and sening username and room to server.
+    socket.emit("join", {
+      username: username,
+      room: room
     });
   }
 
