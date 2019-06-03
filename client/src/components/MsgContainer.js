@@ -13,7 +13,7 @@ class MsgContainer extends Component {
     // }
 
     return (
-      <div>
+      <div className="chat__messages">
         {this.props.messages.map((message, index) =>
           isUrl(message.text) ? (
             <UrlMsg

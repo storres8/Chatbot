@@ -80,25 +80,39 @@ class Home extends Component {
     // socket.on allows us to listen for an event.
     // socket.on takes two arguments, the name of the event as the first and then a callback function.
     return (
-      <div>
-        {<MsgContainer messages={this.state.messages} />}
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Message:
-            <input
-              ref={this.inputRef}
-              type="text"
-              value={this.state.message}
-              onChange={e => this.handleMessage(e)}
-            />
-          </label>
-          <button disabled={!this.state.message} type="submit" value="Submit">
-            Send
-          </button>
-        </form>
-        <button disabled={this.state.loadingLoc} onClick={this.handleLocation}>
-          Share Location
-        </button>
+      <div className="chat">
+        <div className="chat__sidebar" />
+        <div className="chat__main">
+          <MsgContainer messages={this.state.messages} />
+
+          <div className="compose">
+            <form onSubmit={this.handleSubmit}>
+              <input
+                ref={this.inputRef}
+                type="text"
+                name="message"
+                value={this.state.message}
+                onChange={e => this.handleMessage(e)}
+                placeholder="Message"
+              />
+              <button
+                disabled={!this.state.message}
+                type="submit"
+                value="Submit"
+                className="ml-1"
+              >
+                Send
+              </button>
+            </form>
+            <button
+              disabled={this.state.loadingLoc}
+              onClick={this.handleLocation}
+              id="send-location"
+            >
+              Share Location
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

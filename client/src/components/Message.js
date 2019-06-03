@@ -3,11 +3,12 @@ import React, { Component } from "react";
 class Message extends Component {
   render() {
     return (
-      <div>
+      <div className="message">
         <p>
-          {" "}
-          {this.props.createdAt} - {this.props.messages}
+          <span className="message__name">Some User Name</span>
+          <span className="message__meta">{this.props.createdAt}</span>
         </p>
+        <p>{this.props.messages}</p>
       </div>
     );
   }
