@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import MsgContainer from "./MsgContainer";
+import QS from "qs";
 
 const socket = io("http://localhost:5500");
 
@@ -19,6 +20,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    // Rendering messages that are sent.
     socket.on("message", message => {
       console.log(message);
       this.state.messages.push(message);
@@ -29,8 +31,14 @@ class Home extends Component {
       });
     });
 
+    // rendering anything that is sent as a url not just if its a location.
     socket.on("locationMessage", location => {
       this.state.messages.push(location);
+    });
+
+    // parsing the url to grab the username and room and send it to the backend.
+    const { username, room } = QS.parse(window.location.search, {
+      ignoreQueryPrefix: true
     });
   }
 
