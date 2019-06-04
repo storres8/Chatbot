@@ -34,6 +34,9 @@ class Home extends Component {
     // rendering anything that is sent as a url not just if its a location.
     socket.on("locationMessage", location => {
       this.state.messages.push(location);
+      this.setState({
+        mounted: true
+      });
     });
 
     // parsing the url to grab the username and room and send it to the backend.
@@ -42,10 +45,19 @@ class Home extends Component {
       ignoreQueryPrefix: true
     });
     // emmiting socket event and sening username and room to server.
-    socket.emit("join", {
-      username: username,
-      room: room
-    });
+    socket.emit(
+      "join",
+      {
+        username: username,
+        room: room
+      },
+      error => {
+        if (error) {
+          alert(error);
+          window.location.href = "/";
+        }
+      }
+    );
   }
 
   handleMessage = e => {
@@ -108,6 +120,7 @@ class Home extends Component {
                 value={this.state.message}
                 onChange={e => this.handleMessage(e)}
                 placeholder="Message"
+                autoComplete="off"
               />
               <button
                 disabled={!this.state.message}

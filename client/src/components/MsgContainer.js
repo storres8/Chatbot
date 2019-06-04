@@ -19,11 +19,13 @@ class MsgContainer extends Component {
             <UrlMsg
               key={index}
               messages={message.text}
+              username={message.username}
               createdAt={message.createdAt}
             />
           ) : (
             <Message
               key={index}
+              username={message.username}
               messages={message.text}
               createdAt={message.createdAt}
             />

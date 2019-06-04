@@ -5,7 +5,7 @@ class Message extends Component {
     return (
       <div className="message">
         <p>
-          <span className="message__name">Some User Name</span>
+          <span className="message__name">{this.props.username}</span>
           <span className="message__meta">{this.props.createdAt}</span>
         </p>
         <p>{this.props.messages}</p>
