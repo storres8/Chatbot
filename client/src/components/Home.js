@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import MsgContainer from "./MsgContainer";
+import Sidebar from "./Sidebar";
 import QS from "qs";
 
 const socket = io("http://localhost:5500");
@@ -15,7 +16,8 @@ class Home extends Component {
       message: "",
       loadingLoc: false,
       messages: [],
-      mounted: false
+      mounted: false,
+      roomData: null
     };
   }
 
@@ -36,6 +38,12 @@ class Home extends Component {
       this.state.messages.push(location);
       this.setState({
         mounted: true
+      });
+    });
+
+    socket.on("roomData", roomData => {
+      this.setState({
+        roomData: roomData
       });
     });
 
@@ -107,7 +115,11 @@ class Home extends Component {
     // socket.on takes two arguments, the name of the event as the first and then a callback function.
     return (
       <div className="chat">
-        <div className="chat__sidebar" />
+        <div className="chat__sidebar">
+          {this.state.roomData !== null ? (
+            <Sidebar roomData={this.state.roomData} />
+          ) : null}
+        </div>
         <div className="chat__main">
           <MsgContainer messages={this.state.messages} />
 
