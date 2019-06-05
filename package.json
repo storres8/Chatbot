@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": " node chatbot/index.js",
-    "dev": " nodemon chatbot/index.js"
+    "dev": " nodemon chatbot/index.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": "11.12.0"
   }
 }

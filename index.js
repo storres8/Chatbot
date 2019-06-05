@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
+const path = require("path");
 const { generateMessage, generateURL } = require("./utils/messages");
 const {
   addUser,
@@ -17,6 +18,16 @@ const io = socketio(server);
 
 // allows us to parse the body of an incoming request
 app.use(express.json());
+
+// Server static assets if in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client", "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const port = process.env.PORT || 5500;
 
 app.get("/", (req, resp) => {
