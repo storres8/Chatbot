@@ -5,11 +5,16 @@ class Sidebar extends Component {
     const { users, room } = this.props.roomData;
     return (
       <div>
-        <h1>Chat Room {room}</h1>
+        <h2 className="room-title">Chat Room {room}</h2>
 
-        {users.map(user => {
-          return <p key={user.id}>{user.username}</p>;
-        })}
+        <h3 className="users">
+          <u>Users</u>
+        </h3>
+        <ul className="users">
+          {users.map(user => {
+            return <p key={user.id}>{user.username}</p>;
+          })}
+        </ul>
       </div>
     );
   }
