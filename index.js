@@ -20,18 +20,12 @@ const io = socketio(server);
 app.use(express.json());
 
 // Server static assets if in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client", "build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-  });
-}
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 const port = process.env.PORT || 5500;
 
-app.get("/", (req, resp) => {
-  resp.send("working");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 // io.on is only ever run when a new client connects to the server.
